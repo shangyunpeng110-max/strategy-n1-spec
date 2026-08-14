@@ -1,8 +1,16 @@
-# 三份 toml 哪份算数
+# 配置怎么读
 
-外人只看仓库时，按这张表取值。不要把三份文件并起来用。
+先看 [n1.resolved.toml](./n1.resolved.toml)。那是 N1 实际生效的数。
 
-N1 纸交易加载顺序（代码事实）：先读 `strategy.toml` 当底座，再被 `candidate_c.toml` 覆盖风险格子，Strong Bull 时再被 `strategy_e.toml` 改一格。
+下面三份是纸交易引擎按顺序加载的快照，字段有残留。不要把三份并起来用。
+
+```
+strategy.toml          底座：时刻、仓数、窗口、ATR、时间止损
+        ↓
+candidate_c.toml       覆盖：宇宙门槛、15%/30%、bull/neutral/bear
+        ↓
+strategy_e.toml        Strong Bull 时改 trade_risk = 0.0085，并带发行人 15%
+```
 
 ## 用这些
 
@@ -14,15 +22,15 @@ N1 纸交易加载顺序（代码事实）：先读 `strategy.toml` 当底座，
 | Top 分数比例 | strategy.toml | 0.55 |
 | ATR 周期 | strategy.toml | 20 |
 | 时间止损 | strategy.toml | 12 根（交易日） |
-| 限价偏离 | strategy.toml [execution] | 10 bp |
+| 限价偏离 | strategy.toml `[execution]` | 10 bp |
 | Top N / 最低价 / 最少历史 / ADV | candidate_c.toml | 50 / 10 / 200 / 1e8 |
 | 单票上限 | candidate_c.toml | 15% |
 | 行业上限 | candidate_c.toml | 30% |
 | Bull / Neutral / Bear 单笔风险 | candidate_c.toml | 0.50% / 0.35% / 0.25% |
 | Bull / Neutral / Bear 多头上限 | candidate_c.toml | 90% / 60% / 20% |
 | Strong Bull 广度门槛 | candidate_c.toml | 65% |
-| 行业名 → ETF | candidate_c.toml [sector_reference_etfs] | 11 个中文名 |
-| 股票 → 行业 | sector_by_symbol.csv | 隔离 2024–2025 用的 105 只 |
+| 行业名 → ETF | candidate_c.toml `[sector_reference_etfs]` | 11 个中文名 |
+| 股票 → 行业 | sector_by_symbol.csv | 隔离 2024–2025 的 105 只 |
 | Strong Bull 单笔风险 | strategy_e.toml | **0.85%** |
 | 发行人上限 | strategy_e.toml | 15%（GOOG/GOOGL 算一家） |
 
@@ -34,7 +42,9 @@ N1 纸交易加载顺序（代码事实）：先读 `strategy.toml` 当底座，
 - `donchian_entry_bars` / `donchian_exit_bars` / `supertrend_*` — N1 开平仓不用
 - `[risk] trade_risk / single_name_cap=0.20 / sector_cap=0.40` — 被 candidate_c 的 15%/30% 覆盖
 
-`candidate_c.toml` 里的 `strong_bull_trade_risk = 0.006` 是 E2 旧值。N1 用 `strategy_e.toml` 的 **0.0085**。
+`candidate_c.toml` 里的 `strong_bull_trade_risk = 0.006` 是旧值。N1 用 `strategy_e.toml` 的 **0.0085**。
+
+`strategy_e.toml` 里的 `extension_*`、`extended_*` 分位和 `extended_time_stop_bars = 20` 是 E3/E4 残留。N1 第六仓走 D3 门槛，时间止损固定 12 日。
 
 ## 行业怎么来
 

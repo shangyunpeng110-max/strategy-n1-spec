@@ -1,3 +1,7 @@
+# 覆盖宇宙门槛、15%/30%、bull/neutral/bear。
+# strong_bull_trade_risk = 0.006 是旧值，N1 不用；Strong Bull 用 strategy_e.toml 的 0.0085。
+# 本文件只有行业名→ETF，没有股票→行业。隔离复现用 sector_by_symbol.csv。
+
 top_n = 50
 min_price = 10.0
 min_history_days = 200

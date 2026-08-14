@@ -1,3 +1,7 @@
+# 运行时底座。N1 只用 [strategy] 的时刻/仓数/窗口/ATR/时间止损，以及 [execution]。
+# 不要用：universe（不是交易宇宙）、donchian_*、supertrend_*、[risk] 的 20%/40%。
+# 解析后的数见 n1.resolved.toml。
+
 universe = ["SPY.US", "QQQ.US", "IWM.US", "XLK.US", "XLF.US", "XLV.US", "XLI.US", "XLE.US", "XLP.US", "XLY.US", "XLU.US", "AAPL.US", "MSFT.US", "NVDA.US", "AVGO.US", "META.US", "GOOGL.US", "AMZN.US", "TSLA.US", "JPM.US", "BAC.US", "LLY.US", "UNH.US", "COST.US", "WMT.US", "HD.US", "CAT.US", "GE.US", "XOM.US", "CVX.US"]
 run_mode = "simulated"
 decision_delay_minutes = 5

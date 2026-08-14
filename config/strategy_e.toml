@@ -1,3 +1,7 @@
+# N1 只用两行：strong_bull_trade_risk = 0.0085，issuer_cap = 0.15。
+# extension_* / extended_* / extended_time_stop_bars 是 E3/E4 残留，N1 不读。
+# 第六仓走 D3：C 分位≥0.80、趋势效率≥0.60、加速≥0.65。时间止损固定 12 日。
+
 issuer_cap = 0.15
 strong_bull_trade_risk = 0.0085
 extension_score_percentile = 0.80
