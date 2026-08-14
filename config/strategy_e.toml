@@ -1,0 +1,8 @@
+issuer_cap = 0.15
+strong_bull_trade_risk = 0.0085
+extension_score_percentile = 0.80
+extension_sector_percentile = 0.70
+extended_score_percentile = 0.80
+extended_sector_percentile = 0.80
+default_time_stop_bars = 12
+extended_time_stop_bars = 20
