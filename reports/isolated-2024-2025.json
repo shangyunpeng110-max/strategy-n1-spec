@@ -1,0 +1,35 @@
+{
+  "window": ["2024-01-03", "2025-12-31"],
+  "holdout_2026_opened": false,
+  "costs": {"commission_bps": 1, "slippage_bps": 10},
+  "selected": "N1",
+  "passed": true,
+  "n1": {
+    "cagr": 0.21819999998526063,
+    "max_drawdown": 0.07707808566551255,
+    "calmar": 2.830895423793471,
+    "return_2024": 0.2747886912126327,
+    "return_2025": 0.1613911938486754,
+    "total_return": 0.48052835999222854,
+    "exposure": 0.5444384696094042,
+    "profit_factor": 1.846711011281372,
+    "trade_count": 245,
+    "turnover": 50.37315507577623,
+    "minimum_cash": 10483.260851163022,
+    "top_issuer_profit_contribution": 0.14798068127004768
+  },
+  "e2": {
+    "cagr": 0.21101673151332867,
+    "max_drawdown": 0.07673890988928245,
+    "calmar": 2.7498010047025674,
+    "return_2024": 0.23909802171377437,
+    "return_2025": 0.1808772085409034,
+    "total_return": 0.46322261298991907,
+    "exposure": 0.5261078655182908,
+    "profit_factor": 1.8789112867609243,
+    "trade_count": 243,
+    "turnover": 47.75534539737696,
+    "minimum_cash": 11102.709557839813,
+    "top_issuer_profit_contribution": 0.1543127944023972
+  }
+}

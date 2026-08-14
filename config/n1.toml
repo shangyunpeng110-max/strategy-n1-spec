@@ -1,6 +1,5 @@
-# N1 解析后的参数。给人看，引擎不加载本文件。
-# 运行时叠法：strategy.toml → candidate_c.toml → Strong Bull 时 strategy_e.toml
-# 冻结点 2026-08-14。改这些数必须另冻新策略。
+# N1 生效参数。冻结 2026-08-14。改这些数必须另冻新策略。
+# 纸交易引擎不读本文件。
 
 [identity]
 name = "N1"
@@ -18,6 +17,24 @@ min_history_days = 200
 min_average_dollar_volume = 100000000.0
 common_stock_only = true
 rebalance = "monthly_pit_stage_250"
+reference_etfs = [
+  "SPY.US", "QQQ.US",
+  "XLK.US", "XLF.US", "XLV.US", "XLI.US", "XLE.US",
+  "XLP.US", "XLY.US", "XLU.US", "XLB.US", "XLRE.US", "XLC.US",
+]
+
+[sector_reference_etfs]
+"信息技术" = "XLK.US"
+"金融" = "XLF.US"
+"医疗保健" = "XLV.US"
+"工业" = "XLI.US"
+"能源" = "XLE.US"
+"必选消费" = "XLP.US"
+"可选消费" = "XLY.US"
+"公用事业" = "XLU.US"
+"材料" = "XLB.US"
+"房地产" = "XLRE.US"
+"通信服务" = "XLC.US"
 
 [schedule]
 timezone = "America/New_York"
@@ -61,7 +78,6 @@ spy_return_44_positive = true
 qqq_return_44_positive = true
 
 [risk]
-# N1 唯一改动在 strong_bull_trade_risk
 strong_bull_trade_risk = 0.0085
 bull_trade_risk = 0.005
 neutral_trade_risk = 0.0035
@@ -89,7 +105,6 @@ wide_trend_efficiency_percentile = 0.50
 wide_score_percentile = 0.80
 
 [stops]
-# 仓上真正比价的止损
 initial_atr_mult = 2.5
 trailing_atr_mult = 3.0
 trail_starts_at_max_r = 1.0
@@ -104,24 +119,3 @@ backtest_fill_typical = "13:45"
 slippage_bps = 10
 commission_bps = 1
 paper_limit_deviation_bps = 10
-
-[unused_in_runtime_snapshots]
-# 快照里有、N1 不读。列在这里防止抄错。
-strategy_toml = [
-  "universe",
-  "donchian_entry_bars",
-  "donchian_exit_bars",
-  "supertrend_period",
-  "supertrend_multiplier",
-  "risk.trade_risk",
-  "risk.single_name_cap",
-  "risk.sector_cap",
-]
-candidate_c_toml = ["strong_bull_trade_risk"]
-strategy_e_toml = [
-  "extension_score_percentile",
-  "extension_sector_percentile",
-  "extended_score_percentile",
-  "extended_sector_percentile",
-  "extended_time_stop_bars",
-]

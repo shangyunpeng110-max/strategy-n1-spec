@@ -8,8 +8,8 @@
 N1 相对 E2 **只改一处**：Strong Bull 单笔风险 `0.65% → 0.85%`。  
 宇宙、因子、排序、开平仓、止损、第六仓条件全部与 E2 相同。禁止把 X/Y/Z 或其他候选叠进 N1。
 
-给人看的解析配置：[config/n1.resolved.toml](./config/n1.resolved.toml)  
-一天怎么走：[HOW_TO.md](./HOW_TO.md)
+给人看的解析配置：[config/n1.toml](./config/n1.toml)  
+一天怎么走：[README.md](./README.md)
 
 ---
 
@@ -31,13 +31,13 @@ N1 相对 E2 **只改一处**：Strong Bull 单笔风险 `0.65% → 0.85%`。
 
 数据：月度 PIT `stage_250`。当月可交易 = `rejection_reason is None` 的 Top50，且 `common_stock`。
 
-| 项 | 值 | 来源 |
-| --- | --- | --- |
-| Top N | 50 | `candidate_c.toml` |
-| 最低价 | 10 美元 | 同上 |
-| 最少历史 | 200 个交易日 | 同上 |
-| 20 日平均成交额 | ≥ 1 亿美元 | 同上 |
-| 行业映射 | 11 个 SPDR 行业 ETF | 同上 `[sector_reference_etfs]` |
+| 项 | 值 |
+| --- | --- |
+| Top N | 50 |
+| 最低价 | 10 美元 |
+| 最少历史 | 200 个交易日 |
+| 20 日平均成交额 | ≥ 1 亿美元 |
+| 行业映射 | 11 个 SPDR 行业 ETF（见 `config/n1.toml`） |
 
 参考 ETF（不算多头候选人）：SPY、QQQ、XLK、XLF、XLV、XLI、XLE、XLP、XLY、XLU、XLB、XLRE、XLC。
 
@@ -174,7 +174,7 @@ Strong Bull = `active==bull` **且** `c_breadth >= 0.65` **且** SPY 44 日收�
 | Neutral | 0.35% | 60% |
 | Bear | 0.25% | 20% |
 
-`candidate_c.toml` 里的 `strong_bull_trade_risk = 0.006` 是旧值，N1 不用。N1 用 `strategy_e.toml` 的 `0.0085`。
+取值见 [config/n1.toml](./config/n1.toml)。N1 只用 Strong Bull `0.0085`。
 
 ---
 
@@ -184,7 +184,7 @@ Strong Bull = `active==bull` **且** `c_breadth >= 0.65` **且** SPY 44 日收�
 - 只做多普通股，不做 ETF。
 - 必须在当月 Top50、eligible、Top 55%、有 ATR20、不在黑名单。
 - 基础最多 **5** 仓。D3 扩展条件满足时可到 **第 6**（E2 的 `e3_sixth_slot=false`，第六仓走 D3/D2 扩展，不是 E3 那套分位）。
-- D3 扩展门槛：`score_percentile≥0.80`，趋势效率分位≥0.60，加速分位≥0.65。`strategy_e.toml` 里的 `extension_*` / `extended_*` 分位和 20 日时间止损，N1 不用。
+- D3 扩展门槛：`score_percentile≥0.80`，趋势效率分位≥0.60，加速分位≥0.65。E3/E4 的扩展分位和 20 日时间止损，N1 不用。
 
 不能新开：
 
@@ -213,7 +213,7 @@ qty = floor(NAV × trade_risk × size_mult / (stop_atr_mult × ATR20))
 | 再砍 | 单票 15% NAV、行业 30%、发行人 15%、体制多头上限 |
 | 发行人 | GOOG/GOOGL 合并为 ALPHABET |
 
-单票/行业上限取 `candidate_c.toml` 的 15%/30%，**不是** `strategy.toml` 的 20%/40%。发行人上限取 `strategy_e.toml` 的 15%。
+单票/行业/发行人上限见 `config/n1.toml`：15% / 30% / 15%。
 
 ---
 
@@ -295,40 +295,9 @@ ATR_20 的第 20 根 = 前 20 根 TR 的算术平均
 
 ---
 
-## 9. 运行时三份 toml 怎么叠
-
-详见 [config/README.md](./config/README.md)。一句话：
-
-1. `strategy.toml` 底座：13:35、5 仓、44/88、Top 55%、ATR20、12 日、限价 10bp
-2. `candidate_c.toml` 覆盖：宇宙门槛、15%/30%、bull/neutral/bear 风险格子、行业 ETF
-3. Strong Bull 时 `strategy_e.toml` 把 `trade_risk` 改成 **0.0085**，并带上发行人 15%
-
-`strategy.toml` 的 30 只宇宙、Donchian、Supertrend、20%/40% **不用**。  
-`candidate_c.toml` 的 `0.006` **不用**。  
-`strategy_e.toml` 的 E3/E4 扩展分位和 20 日时间止损 **不用**。
-
----
-
-## 10. 隔离窗对照（2024–2025，2026 未打开）
-
-| 指标 | N1 | E2 / N0 |
-| --- | ---: | ---: |
-| CAGR | 21.82% | 21.10% |
-| MaxDD | 7.71% | 7.67% |
-| Calmar | 2.83 | 2.75 |
-| 2024 | +27.48% | +23.91% |
-| 2025 | +16.14% | +18.09% |
-| 累计 | 48.05% | 46.32% |
-| 暴露 | 54.44% | 52.61% |
-
-原始裁决：`reports/validation/strategy_n1/20260814/decision.json`（`selected_version=N1`）。
-
-新策略过门：同一窗 CAGR>21.82% 且 MaxDD≤7.71%。不过不上盘。看完不得改 0.85%。
-
----
-
-## 11. 运行约束
+## 9. 运行约束
 
 - 纸交易 only，长桥 Demo。
 - 独立 `state.db`、独立门闩 `N1_CRON_ARMED`。
 - 本仓库不含持仓、token、`state.db`、env。
+- 隔离窗数字见 [reports/isolated-2024-2025.md](./reports/isolated-2024-2025.md)。
