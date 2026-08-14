@@ -10,7 +10,7 @@
 2. **日线**：宇宙股票 + SPY.US + QQQ.US + 11 个行业 ETF。NY 日历，已收盘。复现窗 2024-01-03..2025-12-31，2026 不能读。
 3. **1h**：美东 09:30/10:30/11:30/12:30 合成 morning；全天 1h 的 **close** 用来打止损（不看 low）。
 4. **15m**：隔离回测成交用。13:35 之后、16:00 之前第一根是 **13:45**，取其 open。
-5. **行业**：隔离复现读 `config/sector_by_symbol.csv`（105 只）。`candidate_c.toml` 只有行业名→ETF，没有股票行业。
+5. **行业**：隔离复现读 `config/sector_by_symbol.csv`（105 只）。`candidate_c.toml` 只有行业名→ETF，没有股票行业。2025-06 Top50 的 `FI.US` 不在表里，按规格当天不能新开，不是漏表。
 6. **财报**：快照里的 `earnings_events`（`known_at` 不晚于决策时刻）。复现不要拉实盘日历。
 7. **体制 19 只日线**：AAPL MSFT NVDA AVGO META GOOGL AMZN TSLA JPM BAC LLY UNH COST WMT HD CAT GE XOM CVX，各至少 100 根；SPY/QQQ 各至少 200 根。
 
