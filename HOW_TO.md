@@ -1,6 +1,6 @@
 # 别人怎么用 N1
 
-读完这份就能独立算出某天该不该开仓、开谁、开多少、怎么停。公式细节在 `Strategy_N1_规格_20260814.md`。参数以 `config/` 为准。
+读完这份就能独立算出某天该不该开仓、开谁、开多少、怎么停。公式细节在 `Strategy_N1_规格_20260814.md`。参数以 `config/README.md` 为准，不要三份 toml 一起用。
 
 不是实盘授权。不要改云电脑上正在跑的 N1。
 
@@ -8,9 +8,11 @@
 
 1. **当月宇宙**：PIT `stage_250` JSON。可交易 = `rejection_reason is None` 且 `common_stock`。隔离复现用 `isolated-2024-2025/evidence/selection_2024_2025/monthly_universe/stage_250/`。
 2. **日线**：宇宙股票 + SPY.US + QQQ.US + 11 个行业 ETF。NY 日历，已收盘。复现窗 2024-01-03..2025-12-31，2026 不能读。
-3. **小时线**：美东 09:30/10:30/11:30/12:30 四根整点（合成 morning）+ 13:35 之后到 16:00 的执行 K 线。
-4. **财报**：快照里的 `earnings_events`（`known_at` 不晚于决策时刻）。复现不要拉实盘日历。
-5. **体制 19 只日线**：AAPL MSFT NVDA AVGO META GOOGL AMZN TSLA JPM BAC LLY UNH COST WMT HD CAT GE XOM CVX，各至少 100 根；SPY/QQQ 各至少 200 根。
+3. **1h**：美东 09:30/10:30/11:30/12:30 合成 morning；全天 1h 的 **close** 用来打止损（不看 low）。
+4. **15m**：隔离回测成交用。13:35 之后、16:00 之前第一根是 **13:45**，取其 open。
+5. **行业**：隔离复现读 `config/sector_by_symbol.csv`（105 只）。`candidate_c.toml` 只有行业名→ETF，没有股票行业。
+6. **财报**：快照里的 `earnings_events`（`known_at` 不晚于决策时刻）。复现不要拉实盘日历。
+7. **体制 19 只日线**：AAPL MSFT NVDA AVGO META GOOGL AMZN TSLA JPM BAC LLY UNH COST WMT HD CAT GE XOM CVX，各至少 100 根；SPY/QQQ 各至少 200 根。
 
 ## 一个交易日（美东，按这个顺序做）
 
@@ -43,8 +45,8 @@
    - size_mult：C 分位≥0.80 → 1.15；≥0.50 → 1.00；否则 0.85
    - stop_atr_mult：默认 2；若横截面 ATR% 分位≥0.70 且趋势效率分位≥0.50 且 C 分位≥0.80 → 2.5
    - 再砍到：单票 15% NAV、行业 30%、发行人 15%（GOOG/GOOGL 算一家）、体制多头上限
-8. **成交（回测）：** 当天 13:35 之后、16:00 之前第一根执行 K 线的 open × (1±10bp)，佣金 1bp。没有这根 K 线就不成交。
-9. **离场（每天都查持仓）：** 价破 入场价−倍数×ATR 或 最高价−倍数×ATR；或持有满 12 个交易日。当天平掉的，当天不能再开。
+8. **成交（回测）：** 用 **15m**，正常日第一根是 13:45 的 open × (1±10bp)，佣金 1bp。不要用 1h 的 14:30。没有 13:45 就不成交。
+9. **离场：** 每根已完成 **1h 的 close** 对 `active_stop`（不看 low）。打中就平，当天不能再开这只。没打中才用该小时 high 更新峰值。或持有满 12 个交易日。
 
 ## 19 只股票是什么
 
@@ -65,13 +67,18 @@
 | 2024 | +27.48% | +23.91% |
 | 2025 | +16.14% | +18.09% |
 
-对不上先查：体制是否从 neutral 起、19 只是否写死、两套广度有没有混、B/C 分位函数有没有用反、morning 是否用四根小时线、成交是否 13:35 后第一根 open。
+对不上先查：体制是否从 neutral 起、19 只是否写死、两套广度有没有混、B/C 分位函数有没有用反、morning 是否用四根 1h、成交是否 **15m 的 13:45 open**、止损是否看 **1h close**、行业是否用 `sector_by_symbol.csv`、有没有误用 strategy.toml 的 20%/40%。
 
 新策略过门：同一窗 CAGR>21.82% 且 MaxDD≤7.71%。不过不上盘。
 
 ## 纸交易和回测的差别
 
-- 回测成交 = 执行 K 线 open+滑点
+- 回测成交 = **15m** 13:45 open + 10bp
 - 纸交易 = 长桥 Demo 限价 10bp，以券商成交为准
+- 纸交易行业来自当月 bootstrap 行内字段，不读本仓库 CSV
 - 纸交易财报还读 `var/paper/strategy_e2/earnings_updates/`；复现不要读
 - 本仓库没有 token、state.db、持仓
+
+## 配置别用错
+
+详见 `config/README.md`。单票/行业上限是 candidate_c 的 **15%/30%**，不是 strategy.toml 的 20%/40%。Donchian/Supertrend 不用。Strong Bull 风险只看 strategy_e 的 **0.85%**。

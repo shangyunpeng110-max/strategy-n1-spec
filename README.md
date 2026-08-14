@@ -10,8 +10,9 @@ N1 = E2 全套 + Strong Bull 单笔风险 **0.85%**（E2 是 0.65%）。只改�
 
 1. [HOW_TO.md](./HOW_TO.md) — 一天怎么走、19 只是油门、怎么验收
 2. [Strategy_N1_规格_20260814.md](./Strategy_N1_规格_20260814.md) — 公式、分位、黑名单、执行细节
-3. `config/` — 冻结参数（N1 风险看 `strategy_e.toml` 的 0.0085）
-4. `reports/validation/strategy_n1/20260814/` — 隔离窗对照数字
+3. [config/README.md](./config/README.md) — 三份 toml 哪份算数
+4. `config/sector_by_symbol.csv` — 隔离复现用的股票→行业（105 只）
+5. `reports/validation/strategy_n1/20260814/` — 隔离窗对照数字
 
 ## 配置
 
