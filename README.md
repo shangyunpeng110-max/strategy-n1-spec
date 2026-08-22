@@ -15,6 +15,8 @@ E2：`70cc50ad965234b99a5a136d4e4f283eedd4281f`
 | [config/sector_by_symbol.csv](./config/sector_by_symbol.csv) | 隔离复现用的 105 只行业表 |
 | [reports/isolated-2024-2025.md](./reports/isolated-2024-2025.md) | 2024–2025 对照 |
 | [docs/n1_hardening_checklist.md](./docs/n1_hardening_checklist.md) | **N1 加固清单**（不改逻辑，只做验证与运营加固） |
+| [docs/n1_baseline_freeze_20260823.md](./docs/n1_baseline_freeze_20260823.md) | 硬化 A：四数基准 + 不可改哈希 |
+| [docs/n1_redlines.md](./docs/n1_redlines.md) | 硬化 A3：选股 / 风险 / 止损 / regime 红线 |
 
 ## 参数
 
