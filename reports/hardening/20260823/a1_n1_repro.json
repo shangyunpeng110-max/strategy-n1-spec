@@ -1,0 +1,61 @@
+{
+  "schema_version": "n1_hardening_a1.v1",
+  "date": "2026-08-23",
+  "window": [
+    "2024-01-03",
+    "2025-12-31"
+  ],
+  "holdout_2026_opened": false,
+  "n1_paper_modified": false,
+  "post_hoc_tuning": false,
+  "published": {
+    "cagr": 0.21819999998526063,
+    "max_drawdown": 0.07707808566551255,
+    "return_2024": 0.2747886912126327,
+    "return_2025": 0.1613911938486754,
+    "trade_count": 245,
+    "total_return": 0.48052835999222854,
+    "rounded": {
+      "cagr": 21.82,
+      "max_drawdown": 7.71,
+      "return_2024": 27.48,
+      "return_2025": 16.14
+    }
+  },
+  "latest_independent": {
+    "source": "N5 isolation N1-first run",
+    "path": "/workspace/quant/strategy-n5/independent/artifacts/20260822/n1_repro.json",
+    "finished_asia_shanghai": "2026-08-23T01:05:05.300149+08:00",
+    "status": "pass",
+    "rounded_pass": true,
+    "exact_pass": true,
+    "first_differing_metric": null,
+    "metrics": {
+      "cagr": 0.21819999998526063,
+      "max_drawdown": 0.07707808566551255,
+      "return_2024": 0.2747886912126327,
+      "return_2025": 0.1613911938486754,
+      "trade_count": 245,
+      "total_return": 0.48052835999222854,
+      "exposure": 0.5444384696094042,
+      "calmar": 2.830895423793471,
+      "sharpe": 1.824043525527382,
+      "average_holding_days": 15.555102040816326
+    }
+  },
+  "also_exact": [
+    {
+      "source": "N4 isolation N1-first",
+      "path": "/workspace/quant/strategy-n4/independent/artifacts/20260822/n1_repro.json"
+    },
+    {
+      "source": "N3 independent",
+      "note": "same exact four numbers + 245 trades"
+    }
+  ],
+  "pins": {
+    "monthly": "cb11cbcf067857e8d2fedacb6ce9ed7cb8df4a6eee00f84a3d8d5b69702e5afd",
+    "reference": "f102cebf7f3f3c902ea970a0cbc7648db8ca76334c4848c6311f73131d71fd1a",
+    "override": "0ef946e11bfee87332de091975bc33abf2436b794b7c6c61b2b971e5fb7bfcee"
+  }
+}
