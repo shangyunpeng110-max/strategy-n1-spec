@@ -14,6 +14,7 @@ E2：`70cc50ad965234b99a5a136d4e4f283eedd4281f`
 | [SPEC.md](./SPEC.md) | 公式和执行钉死 |
 | [config/sector_by_symbol.csv](./config/sector_by_symbol.csv) | 隔离复现用的 105 只行业表 |
 | [reports/isolated-2024-2025.md](./reports/isolated-2024-2025.md) | 2024–2025 对照 |
+| [docs/n1_hardening_checklist.md](./docs/n1_hardening_checklist.md) | **N1 加固清单**（不改逻辑，只做验证与运营加固） |
 
 ## 参数
 
